@@ -7,7 +7,9 @@ const UCChildren = ({ innerElements, parentId }) => {
   return (
     <>
       {innerElements?.map(childrenId => {
-        const data = components.all[childrenId]
+        console.log(childrenId)
+        const data = components.all[childrenId.id]
+        console.log(data)
         const ucProps = { key: childrenId, parentId, data }
         return <UC {...ucProps} />
       })}

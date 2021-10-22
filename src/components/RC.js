@@ -3,11 +3,11 @@ import { AddMenu } from '.'
 
 //Root component (container)
 
-const RC = ({ name }) => {
+const RC = ({ id }) => {
+  console.log(id)
   return (
     <>
-      <AddMenu />
-      <RCChildren />
+      <AddMenu rcId={id} />
     </>
   )
 }

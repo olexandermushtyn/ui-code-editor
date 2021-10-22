@@ -3,13 +3,14 @@ import UC from './UC'
 
 // Root component child
 
-const RCChildren = () => {
+const RCChildren = ({ rootId }) => {
   const { components } = useCodeStore()
+
   return (
     <>
-      {/* {Object.keys(components.root).push.map(componentId => (
-        <UC key={componentId} data={components.root[componentId]} />
-      ))} */}
+      {Object.keys(components.root).map(componentId => {
+        return <UC key={componentId} data={components.root[componentId]} />
+      })}
     </>
   )
 }

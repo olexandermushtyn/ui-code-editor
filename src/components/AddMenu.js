@@ -3,36 +3,61 @@ import { Dropdown } from 'react-bootstrap'
 import { useCodeStore } from '../context/hooks'
 import nextId from 'react-id-generator'
 
-const AddMenu = props => {
+const AddMenu = ({ rcId }) => {
   const { dispatch } = useCodeStore()
 
-  const addCode = type => {
+  const addCode = event => {
+    console.log(event.currentTarget.innerHTML)
+    const generatedId = nextId()
+    let parentId
+    if (event.currentTarget.innerHTML === 'Container') {
+      parentId = undefined
+    } else {
+      parentId = rcId
+    }
     dispatch({
       type: 'addCode',
       payload: {
-        id: nextId(),
+        id: generatedId,
         children: [],
-        name: 'div',
-        parentId: 'root',
+        name: event.currentTarget.innerHTML,
+        parentId: parentId,
         attributes: [],
+        text: event.currentTarget.innerHTML + ' ' + generatedId,
       },
     })
   }
+  if (!rcId) {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          +
+        </Dropdown.Toggle>
 
-  return (
-    <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        +
-      </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={event => addCode(event)}>
+            Container
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    )
+  } else {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          +
+        </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item>Container</Dropdown.Item>
-        <Dropdown.Item>Row</Dropdown.Item>
-        <Dropdown.Item>Col</Dropdown.Item>
-        <Dropdown.Item onClick={() => addCode('button')}>Button</Dropdown.Item>
-        <Dropdown.Item>Input</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  )
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={event => addCode(event)}>Row</Dropdown.Item>
+          <Dropdown.Item onClick={event => addCode(event)}>Col</Dropdown.Item>
+          <Dropdown.Item onClick={event => addCode(event)}>
+            Button
+          </Dropdown.Item>
+          <Dropdown.Item onClick={event => addCode(event)}>Input</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    )
+  }
 }
 export default AddMenu
